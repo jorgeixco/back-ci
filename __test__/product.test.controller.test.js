@@ -1,10 +1,10 @@
 const {
   getProductController,
-} = require("../app/controllers/product.controller");
-const { getProduct } = require("../app/services/product.service");
-jest.mock("../app/services/product.service"); // Mock the getProduct service
+} = require('../app/controllers/product.controller');
+const { getProduct } = require('../app/services/product.service');
+jest.mock('../app/services/product.service'); // Mock the getProduct service
 
-describe("getProductController", () => {
+describe('getProductController', () => {
   let mockRequest;
   let mockResponse;
   let mockSend;
@@ -22,13 +22,13 @@ describe("getProductController", () => {
     jest.clearAllMocks(); // Clear mocks after each test
   });
 
-  test("calls getProduct with correct parameters", async () => {
+  test('calls getProduct with correct parameters', async () => {
     await getProductController(mockRequest, mockResponse);
     expect(getProduct).toHaveBeenCalledWith(mockRequest, mockResponse);
   });
 
-  test("successfully returns products with a 200 status code", async () => {
-    const mockProducts = [{ id: 1, name: "Test Product" }];
+  test('successfully returns products with a 200 status code', async () => {
+    const mockProducts = [{ id: 1, name: 'Test Product' }];
     getProduct.mockResolvedValue(mockProducts); // Mock successful response
 
     await getProductController(mockRequest, mockResponse);
@@ -37,8 +37,8 @@ describe("getProductController", () => {
     expect(mockSend).toHaveBeenCalledWith(mockProducts);
   });
 
-  test("handles errors gracefully", async () => {
-    getProduct.mockRejectedValue(new Error("Test error")); // Simulate an error
+  test('handles errors gracefully', async () => {
+    getProduct.mockRejectedValue(new Error('Test error')); // Simulate an error
 
     await getProductController(mockRequest, mockResponse);
 

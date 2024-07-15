@@ -10,24 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        npm install
-        
-    - name: Run tests
-      run: |
-        npm test
+      - name: Install dependencies
+        run: |
+          npm install
 
-    - name: Deploy to Render
-      if: success() 
-      env:
-        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-      run: |
-        curl -X POST \
-          -H 'Accept: application/json' \
-          -H 'Authorization: Bearer $RENDER_API_KEY' \
-          -d '{"branch":"main"}' \
-          https://api.render.com/v1/services/SERVICE_ID/deploys
+      - name: Run security scan
+        run: npx audit-ci --config .audit-ci.json
+
+      - name: Run tests
+        run: |
+          npm test
+
+      - name: Deploy to Render
+        if: success()
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          curl -X POST \
+            -H 'Accept: application/json' \
+            -H 'Authorization: Bearer $RENDER_API_KEY' \
+            -d '{"branch":"main"}' \
+            https://api.render.com/v1/services/SERVICE_ID/deploys

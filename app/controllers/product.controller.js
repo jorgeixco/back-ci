@@ -1,4 +1,4 @@
-const { getProduct } = require("../services/product.service");
+const { getProduct } = require('../services/product.service');
 
 /**
  * Function to get all products

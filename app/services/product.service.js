@@ -1,4 +1,4 @@
-const products  = require("../utils/data");
+const products = require('../utils/data');
 
 /**
  * Function to get all products
